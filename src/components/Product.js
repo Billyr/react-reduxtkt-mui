@@ -11,11 +11,18 @@ import {
   Button,
   Grid
 } from '@mui/material';
+
 import { useState, useEffect } from 'react';
+
+import { add } from '../store/cartSlice';
+import { useDispatch } from 'react-redux';
+
 
 const Product = () => {
   const [products, getProducts] = useState([]);
   const [show, setShow] = useState(false);
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     setShow(true);
@@ -26,6 +33,10 @@ const Product = () => {
         getProducts(result)
       })
   }, [])
+
+  const addToCart = product => {
+    dispatch(add(product));
+  }
 
   const cards = products?.map(product => (
     <Grid key={product.id} item md={4} lg={3}>
@@ -46,7 +57,7 @@ const Product = () => {
           </Typography>
         </CardContent>
         <CardActions sx={{ justifyContent: 'end' }}>
-          <Button size="small">Add Product</Button>
+          <Button size="small" onClick={() => addToCart(product)}>Add Product</Button>
         </CardActions>
       </Card>
     </Grid>
