@@ -6,10 +6,11 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
+import Badge from '@mui/material/Badge';
 import Link from '@mui/material/Link';
-import { Link as LinkRoute } from 'react-router-dom';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCart';
 
+import { Link as LinkRoute } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 export default function NavBar() {
@@ -24,11 +25,12 @@ export default function NavBar() {
                     <Link to="/dashboard" as={LinkRoute} underline="none" color={'white'} sx={{ flexGrow: 1 }}>
                         Products
                     </Link>
-                    <Link to='/cart' as={LinkRoute} sx={{color:'white'}} underline="none">
+                    <Link to='/cart' as={LinkRoute} underline="none">
                         <IconButton sx={{color:'white'}}>
-                            <ShoppingCartOutlinedIcon/>
+                            <Badge badgeContent={cartProducts.length} color='secondary'>
+                                <ShoppingCartOutlinedIcon/>
+                            </Badge>
                         </IconButton>
-                        {cartProducts.length}
                     </Link>
                 </Toolbar>
             </AppBar>

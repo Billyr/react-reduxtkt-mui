@@ -14,15 +14,16 @@ import {
 
 import { useState, useEffect } from 'react';
 
-import { add } from '../store/cartSlice';
+import { add, remove } from '../store/cartSlice';
 import { useDispatch } from 'react-redux';
-
+import { useSelector } from 'react-redux';
 
 const Product = () => {
   const [products, getProducts] = useState([]);
   const [show, setShow] = useState(false);
 
   const dispatch = useDispatch();
+  const cartProducts = useSelector(state => state.Mycart);
 
   useEffect(() => {
     setShow(true);
@@ -36,6 +37,15 @@ const Product = () => {
 
   const addToCart = product => {
     dispatch(add(product));
+  }
+
+  const removeFromcart = id => {
+    dispatch(remove(id));
+  }
+
+  const searchItemAdded = (id) => {
+    const filtered = cartProducts?.filter(item => item.id === id);
+    return filtered.length > 0;
   }
 
   const cards = products?.map(product => (
@@ -58,6 +68,10 @@ const Product = () => {
         </CardContent>
         <CardActions sx={{ justifyContent: 'end' }}>
           <Button size="small" onClick={() => addToCart(product)}>Add Product</Button>
+          {searchItemAdded(product.id)
+          ? <Button size="small" color='warning' onClick={() => removeFromcart(product.id)}>Remove</Button>
+          : null
+          }
         </CardActions>
       </Card>
     </Grid>
